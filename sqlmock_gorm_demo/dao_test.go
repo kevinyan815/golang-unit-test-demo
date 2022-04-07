@@ -90,7 +90,7 @@ func TestGetUserByNameAndPasswordMock(t *testing.T) {
 //	// 目前没有办法Mock测试GORM的UPDATE方法，除非用Exec直接执行更新SQL，不过那就失去使用ORM的意义了
 //	// 这个先跳过
 //	mock.ExpectBegin()
-//	mock.ExpectExec(regexp.QuoteMeta("UPDATE `users` SET `updated_at` = ?, `username` = ?  WHERE (id = ?)")).
+//	mock.ExpectExec("UPDATE `users` SET `updated_at` = ?, `username` = ?  WHERE (id = ?)").
 //		WithArgs(time.Now(), newName, userId).
 //		WillReturnResult(sqlmock.NewResult(1, 1))
 //	mock.ExpectCommit()

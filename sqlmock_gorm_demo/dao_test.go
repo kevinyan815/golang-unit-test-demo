@@ -97,4 +97,6 @@ func TestGetUserByNameAndPasswordMock(t *testing.T) {
 //
 //	err := UpdateUserNameById(newName, userId)
 //	assert.Nil(t, err)
+//	// 调用确保期望的结果都满足的方法可以通过，但还是会告警updated_at 字段实际执行的值与预期指定的值不一致。
+//	//mock.ExpectationsWereMet()
 //}

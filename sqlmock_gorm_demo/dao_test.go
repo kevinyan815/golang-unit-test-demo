@@ -82,19 +82,22 @@ func TestGetUserByNameAndPasswordMock(t *testing.T) {
 	assert.Equal(t, user, res)
 }
 
-//func TestUpdateUserNameByIdMock(t *testing.T) {
-//	newName := "Kev"
-//	var userId int64 = 1
-//
-//	// GORM 在UPDATE 的时候会自动更新updated_at 字段为当前时间，与这里withArgs传递的 time.Now() 参数不一致，
-//	// 目前没有办法Mock测试GORM的UPDATE方法，除非用Exec直接执行更新SQL，不过那就失去使用ORM的意义了
-//	// 这个先跳过
-//	mock.ExpectBegin()
-//	mock.ExpectExec("UPDATE `users` SET `updated_at` = ?, `username` = ?  WHERE (id = ?)").
-//		WithArgs(time.Now(), newName, userId).
-//		WillReturnResult(sqlmock.NewResult(1, 1))
-//	mock.ExpectCommit()
-//
-//	err := UpdateUserNameById(newName, userId)
-//	assert.Nil(t, err)
-//}
+func TestUpdateUserNameByIdMock(t *testing.T) {
+	newName := "Kev"
+	var userId int64 = 1
+
+	// GORM 在UPDATE 的时候会自动更新updated_at 字段为当前时间，与这里withArgs传递的 time.Now() 参数不一致，
+	// 目前没有办法Mock测试GORM的UPDATE方法，除非用Exec直接执行更新SQL，不过那就失去使用ORM的意义了
+	// 这个先跳过
+	// 目前已找到解决方案：
+	// https://github.com/DATA-DOG/go-sqlmock/issues/
+	// sqlmock.AnyArg() match any kind of arguments seful for time.Time or similar kinds of arguments.
+	mock.ExpectBegin()
+	mock.ExpectExec("UPDATE `users` SET `updated_at` = ?, `username` = ?  WHERE (id = ?)").
+		WithArgs(sqlmock.AnyArg(), newName, userId).
+		WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectCommit()
+
+	err := UpdateUserNameById(newName, userId)
+	assert.Nil(t, err)
+}

@@ -92,6 +92,7 @@ func TestUpdateUserNameByIdMock(t *testing.T) {
 	// 目前已找到解决方案：
 	// https://github.com/DATA-DOG/go-sqlmock/issues/
 	// sqlmock.AnyArg() match any kind of arguments seful for time.Time or similar kinds of arguments.
+	// 亦可 自定义一个 Matcher 参考：https://qiita.com/isao_e_dev/items/c9da34c6d1f99a112207
 	mock.ExpectBegin()
 	mock.ExpectExec("UPDATE `users` SET `updated_at` = ?, `username` = ?  WHERE (id = ?)").
 		WithArgs(sqlmock.AnyArg(), newName, userId).
